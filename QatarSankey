@@ -1,14 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.20
+# v0.19.9
 
 using Markdown
 using InteractiveUtils
 
 # ╔═╡ ef91404e-934a-11ed-16c3-b5ca03ab19e9
-using SankeyPlots ,PlutoUI; import PlotUtils: palette
+using SankeyPlots ,Colors, ColorSchemes,PlutoUI; import PlotUtils: palette
 
 # ╔═╡ ad63e364-d4f0-456c-976d-005ed626fd66
-md" # Energy policy of Qatar
+md"  # QATAR
+Qatar is one fourth the size of Haryana. Qatar is the fourth largest country by greenhouse gas emissions per capita based on a production accounting of emissions of Carbon dioxide, Methane, Nitrous oxide, Perfluorocarbon, Hydrofluorocarbon, and Sulfur hexafluoride within the territory of country. In order to meet the Paris Agreement goal of under 1.5°C rise by 2050, average per person emissions would need to be around 2 tonnes per person by 2030. It has been suggested that countries over the average be carbon taxed and the funds raised given to countries under the average.
+# ⚡Energy policy of Qatar⚡
   ##  Qatar Energy's Sustainability Strategy
    Qatar Energy's Sustainability Strategy is governed by three mains references, Qatar National Vision 2030, United Nation's Sustainable Development Goals, and the Paris Agreement. It relies on several main pillars: to develop a low carbon energy department, to reduce emissions to compensate for residual emissions, and to preserve the company's leading position in the LNG sector.
 Qatar Energy set within its strategy several targets, such as :
@@ -26,43 +28,81 @@ Qatar Energy set within its strategy several targets, such as :
 *   The size and quality of the expatriate labour force and the selected path of development
    * Economic growth, social development, and environmental management"
 
+# ╔═╡ 598549f4-1344-4d25-bd5d-fbf215ac04b6
+cs = distinguishable_colors(17)
+
+# ╔═╡ 50d3b72d-c8cf-4c17-9af3-5ee2366ad892
+md" ## Final Consumption in 1980 (80.3PJ)"
+
+# ╔═╡ 3d1b044f-ee59-4fd0-b7e8-08ab5ba624c2
+src =[1,1,2,2,3,4,4,5,5,5,5,6,7,7,8]
+
+# ╔═╡ 6841ac8c-6fff-4966-a7dd-b11303500da2
+dst=[6,7,5,8,7,5,7,9,10,11,12,13,14,15,16]
+
+# ╔═╡ 91ce69e2-c413-44a8-abaf-d67126b3a9fc
+weight=[14.6,3.2,34.7,19.9,0.2,1.7,6.1,6.7,22.4,2.6,1.7,14.6,0.2,6.2,19.9]
+
+# ╔═╡ 7df9890d-02d0-4c9f-9e2f-9f5dc5856200
+names=["Oil products","Natural gas","Bio fuels and wastes","Electricity","Industry","Transport","Other","Non-Energy use","Iron and Steel","Chemical and petrochemical","Non-Metallic minerals","Non-specified(Industry)","Road","Residential","Non-specified(Other)","Non-energy use industry"]
+
+# ╔═╡ f5ccb9ac-c942-47bf-8fcc-523fac1c7ce3
+sankey(
+    src, dst, weight;
+    node_labels=names,
+    node_colors=cs,
+    edge_color=:gradient,
+    label_position=:right,
+    label_size=6,
+    compact=true)
+
+# ╔═╡ 4d7da16f-87cd-4584-a7e8-99827b036a70
+md" ## Final Consumption in 2020. "
+
 # ╔═╡ cb78b0e1-9b37-42ec-926f-b8de7fdf3d96
-src=[1,1,1,1,2,2,3,4,4,5,5,5,5,6,7,7,7,8]
+src2=[1,1,1,1,2,2,3,4,4,5,5,5,5,6,7,7,7,8]
 
 # ╔═╡ 06d1e7aa-020e-4f1e-ae45-e3bbb3bb566e
-dst=[5,6,7,8,5,8,8,5,7,9,10,11,12,13,14,15,16,17]
+dst2=[5,6,7,8,5,8,8,5,7,9,10,11,12,13,14,15,16,17]
 
 # ╔═╡ bc6f4d0d-f2b3-44bb-8c85-e5fed6128077
-weights=[34.8,163.8,6.2,168,257.4,124.8,0.4,37.7,117.4,9.6,172.4,75.5,72.5,163.8,73,30,21,292.8]
+weights2=[34.8,163.8,6.2,168,257.4,124.8,0.4,37.7,117.4,9.6,172.4,75.5,72.5,163.8,73,30,21,292.8]
 
 # ╔═╡ 9b5e6b81-1e1b-45e1-9f77-31160ab7486f
-names=["Oil products","Natural gas","Bio fuels and wastes","Electricity","Industry","Transport","Other","Non-Energy use","Iron and Steel","Chemical and petrochemical","Non-Metallic minerals","Non-specified(Industry)","Road","Residential","Commerce and Public services","Non-specified(Other)","Non-energy use industry"]
-
-# ╔═╡ b544dc5a-f556-415d-90c0-cd0a39000040
-energy_colors = palette(:seaborn_colorblind)[[2,4,6, 10, 3, 1,5, 2, 8, 1, 4,1,6,1,7,5,3]]
+names2=["Oil products","Natural gas","Bio fuels and wastes","Electricity","Industry","Transport","Other","Non-Energy use","Iron and Steel","Chemical and petrochemical","Non-Metallic minerals","Non-specified(Industry)","Road","Residential","Commerce and Public services","Non-specified(Other)","Non-energy use industry"]
 
 # ╔═╡ 7c4b9d43-47d3-4d8a-91a5-ad19aa86a0ff
 
 sankey(
-    src, dst, weights;
-    node_labels=names,
-    node_colors=energy_colors,
+    src2, dst2, weights2;
+    node_labels=names2,
+    node_colors=cs,
     edge_color=:gradient,
     label_position=:right,
-    label_size=7,
-    compact=true,
-	force_layer=[6=>2],
-    force_order=[5=>1]
-)
+    label_size=6,
+    compact=true)
+
+# ╔═╡ a073c33b-8db2-4e55-a53c-2a23d24fdec1
+md""" ## Diagram made by using ` SankeyMatics`. """
+
+# ╔═╡ a8945ac9-7f73-4f8b-9244-256811e2fd48
+Resource("https://github.com/raman-maker/Raman.github.io/blob/master/sankeymatic_20230124_145302.jpg?raw=true", :width=>700)
+
+# ╔═╡ ba3cc9c8-5543-4d66-b916-5c341b7bb761
+Resource("https://github.com/raman-maker/Raman.github.io/blob/master/sankeymatic_20230124_145438_2600x1600.png?raw=true", :width=>700)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
+Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
 PlotUtils = "995b91a9-d308-5afd-9ec6-746e21dbc043"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 SankeyPlots = "8fd88ec8-d95c-41fc-b299-05f2225f2cc5"
 
 [compat]
+ColorSchemes = "~3.20.0"
+Colors = "~0.12.10"
 PlotUtils = "~1.3.2"
 PlutoUI = "~0.7.49"
 SankeyPlots = "~0.2.2"
@@ -74,7 +114,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.3"
 manifest_format = "2.0"
-project_hash = "cc8b0742cd6f62c2ad03cc195a04d0299b973faa"
+project_hash = "a9c3ced7c6411ab72a33b1614d1b25e66e8fb3ff"
 
 [[deps.ASL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1227,11 +1267,21 @@ version = "1.4.1+0"
 # ╔═╡ Cell order:
 # ╟─ad63e364-d4f0-456c-976d-005ed626fd66
 # ╠═ef91404e-934a-11ed-16c3-b5ca03ab19e9
-# ╟─cb78b0e1-9b37-42ec-926f-b8de7fdf3d96
-# ╟─06d1e7aa-020e-4f1e-ae45-e3bbb3bb566e
-# ╟─bc6f4d0d-f2b3-44bb-8c85-e5fed6128077
-# ╟─9b5e6b81-1e1b-45e1-9f77-31160ab7486f
-# ╟─b544dc5a-f556-415d-90c0-cd0a39000040
+# ╠═598549f4-1344-4d25-bd5d-fbf215ac04b6
+# ╟─50d3b72d-c8cf-4c17-9af3-5ee2366ad892
+# ╠═3d1b044f-ee59-4fd0-b7e8-08ab5ba624c2
+# ╠═6841ac8c-6fff-4966-a7dd-b11303500da2
+# ╠═91ce69e2-c413-44a8-abaf-d67126b3a9fc
+# ╠═7df9890d-02d0-4c9f-9e2f-9f5dc5856200
+# ╠═f5ccb9ac-c942-47bf-8fcc-523fac1c7ce3
+# ╠═4d7da16f-87cd-4584-a7e8-99827b036a70
+# ╠═cb78b0e1-9b37-42ec-926f-b8de7fdf3d96
+# ╠═06d1e7aa-020e-4f1e-ae45-e3bbb3bb566e
+# ╠═bc6f4d0d-f2b3-44bb-8c85-e5fed6128077
+# ╠═9b5e6b81-1e1b-45e1-9f77-31160ab7486f
 # ╠═7c4b9d43-47d3-4d8a-91a5-ad19aa86a0ff
+# ╟─a073c33b-8db2-4e55-a53c-2a23d24fdec1
+# ╠═a8945ac9-7f73-4f8b-9244-256811e2fd48
+# ╠═ba3cc9c8-5543-4d66-b916-5c341b7bb761
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

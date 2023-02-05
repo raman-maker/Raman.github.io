@@ -1,0 +1,123 @@
+<svg height="700" width="1300" xmlns="http://www.w3.org/2000/svg">
+<title>Your Diagram Title</title>
+<!-- Generated with SankeyMATIC: 2/5/2023, 10:13:49 PM -->
+<rect height="700" width="1300" fill="#57e389"></rect>
+<g transform="translate(160.72199352264403,18)">
+<g id="sankey_flows">
+<path id="flow2" d="M9 299.22086C272.13658 299.22086 272.13658 361.03872 535.27316 361.03872" fill="none" stroke-width="144.40373" stroke="#e7298a" opacity="0.45"><title>Natural Gas → Industry: 34.7</title></path>
+<path id="flow8" d="M544.27316 363.32754C831.27558 363.32754 831.27558 125.60654 1118.27801 125.60654" fill="none" stroke-width="93.21739" stroke="#d95f02" opacity="0.45"><title>Industry → Chemical and petrochemical: 22.4</title></path>
+<path id="flow3" d="M9 412.82956C241.84532 412.82956 241.84532 535.33168 474.69065 535.33168" fill="none" stroke-width="82.81366" stroke="#e7298a" opacity="0.45"><title>Natural Gas → Non-energy use: 19.9</title></path>
+<path id="flow14" d="M483.69065 535.33168C800.98433 535.33168 800.98433 582.95188 1118.27801 582.95188" fill="none" stroke-width="82.81366" stroke="#e6ab02" opacity="0.45"><title>Non-energy use → Non-energy use industry: 19.9</title></path>
+<path id="flow0" d="M9 85.78495C284.0695 85.78495 284.0695 116.51595 559.139 116.51595" fill="none" stroke-width="60.75776" stroke="#1b9e77" opacity="0.45"><title>Oil Products → Transport: 14.6</title></path>
+<path id="flow11" d="M568.139 116.51595C843.2085 116.51595 843.2085 352.09443 1118.27801 352.09443" fill="none" stroke-width="60.75776" stroke="#66a61e" opacity="0.45"><title>Transport → Road: 14.6</title></path>
+<path id="flow7" d="M544.27316 302.77785C831.27558 302.77785 831.27558 25.34971 1118.27801 25.34971" fill="none" stroke-width="27.88199" stroke="#1b9e77" opacity="0.45"><title>Industry → Iron and Steel: 6.7</title></path>
+<path id="flow6" d="M9 565.2897C224.86386 565.2897 224.86386 203.22751 440.72772 203.22751" fill="none" stroke-width="25.80124" stroke="#666666" opacity="0.45"><title>Electricity → Other: 6.2</title></path>
+<path id="flow13" d="M449.72772 203.22751C784.00286 203.22751 784.00286 488.93728 1118.27801 488.93728" fill="none" stroke-width="25.80124" stroke="#a6761d" opacity="0.45"><title>Other → Non-specified (other): 6.2</title></path>
+<path id="flow10" d="M544.27316 430.53561C831.27558 430.53561 831.27558 272.2289 1118.27801 272.2289" fill="none" stroke-width="19.55901" stroke="#e7298a" opacity="0.45"><title>Industry → Non-specified(industry): 4.7</title></path>
+<path id="flow12" d="M449.72772 183.25236C784.00286 183.25236 784.00286 429.25499 1118.27801 429.25499" fill="none" stroke-width="14.14907" stroke="#e6ab02" opacity="0.45"><title>Other → Residential: 3.4</title></path>
+<path id="flow1" d="M9 122.82222C224.86386 122.82222 224.86386 182.83621 440.72772 182.83621" fill="none" stroke-width="13.31677" stroke="#1b9e77" opacity="0.45"><title>Oil Products → Other: 3.2</title></path>
+<path id="flow9" d="M544.27316 415.34617C831.27558 415.34617 831.27558 217.33232 1118.27801 217.33232" fill="none" stroke-width="10.81988" stroke="#7570b3" opacity="0.45"><title>Industry → Non-metallic minerals: 2.6</title></path>
+<path id="flow5" d="M9 581.72759C272.13658 581.72759 272.13658 436.77785 535.27316 436.77785" fill="none" stroke-width="7.07453" stroke="#666666" opacity="0.45"><title>Electricity → Industry: 1.7</title></path>
+<path id="flow4" d="M9 495.59288C224.86386 495.59288 224.86386 189.91074 440.72772 189.91074" fill="none" stroke-width="1" stroke="#a6761d" opacity="0.45"><title>Bio fuel waste → Other: 0.2</title></path>
+</g>
+<g id="sankey_nodes">
+<g class="node">
+<rect id="r0" class="for_r0" x="0" y="114.47052" height="74.07453" width="9" fill="#1b9e77" fill-opacity="1" transform="translate(0,-59.06445)"><title>Oil Products:
+17.8</title></rect>
+</g>
+<g class="node">
+<rect id="r1" class="for_r1" x="559.139" y="86.13706" height="60.75776" width="9" fill="#d95f02" fill-opacity="1"><title>Transport:
+14.6</title></rect>
+</g>
+<g class="node">
+<rect id="r2" class="for_r2" x="559.139" y="186.60197" height="39.95031" width="9" fill="#7570b3" fill-opacity="1" transform="translate(-118.41128,-10.42415)"><title>Other:
+9.6</title></rect>
+</g>
+<g class="node">
+<rect id="r3" class="for_r3" x="0" y="228.2522" height="227.21739" width="9" fill="#e7298a" fill-opacity="1" transform="translate(0,-1.2332)"><title>Natural Gas:
+54.6</title></rect>
+</g>
+<g class="node">
+<rect id="r4" class="for_r4" x="559.139" y="266.25942" height="151.47826" width="9" fill="#66a61e" fill-opacity="1" transform="translate(-23.86584,22.57743)"><title>Industry:
+36.4</title></rect>
+</g>
+<g class="node">
+<rect id="r5" class="for_r5" x="559.139" y="457.44483" height="82.81366" width="9" fill="#e6ab02" fill-opacity="1" transform="translate(-84.44836,36.48002)"><title>Non-energy use:
+19.9</title></rect>
+</g>
+<g class="node">
+<rect id="r6" class="for_r6" x="0" y="495.17673" height="1" width="9" fill="#a6761d" fill-opacity="1"><title>Bio fuel waste:
+0.2</title></rect>
+</g>
+<g class="node">
+<rect id="r7" class="for_r7" x="0" y="535.88387" height="32.87578" width="9" fill="#666666" fill-opacity="1" transform="translate(0,16.50521)"><title>Electricity:
+7.9</title></rect>
+</g>
+<g class="node">
+<rect id="r8" class="for_r8" x="1118.27801" y="11.40871" height="27.88199" width="9" fill="#1b9e77" fill-opacity="1"><title>Iron and Steel:
+6.7</title></rect>
+</g>
+<g class="node">
+<rect id="r9" class="for_r9" x="1118.27801" y="78.99784" height="93.21739" width="9" fill="#d95f02" fill-opacity="1"><title>Chemical and petrochemical:
+22.4</title></rect>
+</g>
+<g class="node">
+<rect id="r10" class="for_r10" x="1118.27801" y="211.92238" height="10.81988" width="9" fill="#7570b3" fill-opacity="1"><title>Non-metallic minerals:
+2.6</title></rect>
+</g>
+<g class="node">
+<rect id="r11" class="for_r11" x="1118.27801" y="262.4494" height="19.55901" width="9" fill="#e7298a" fill-opacity="1"><title>Non-specified(industry):
+4.7</title></rect>
+</g>
+<g class="node">
+<rect id="r12" class="for_r12" x="1118.27801" y="321.71555" height="60.75776" width="9" fill="#66a61e" fill-opacity="1"><title>Road:
+14.6</title></rect>
+</g>
+<g class="node">
+<rect id="r13" class="for_r13" x="1118.27801" y="422.18045" height="14.14907" width="9" fill="#e6ab02" fill-opacity="1"><title>Residential:
+3.4</title></rect>
+</g>
+<g class="node">
+<rect id="r14" class="for_r14" x="1118.27801" y="476.03666" height="25.80124" width="9" fill="#a6761d" fill-opacity="1"><title>Non-specified (other):
+6.2</title></rect>
+</g>
+<g class="node">
+<rect id="r15" class="for_r15" x="1118.27801" y="541.54505" height="82.81366" width="9" fill="#e6ab02" fill-opacity="1"><title>Non-energy use industry:
+19.9</title></rect>
+</g>
+</g>
+<g id="sankey_labels" font-family="sans-serif" font-size="16px" font-weight="400" fill="#000000">
+<rect id="label0_bg" class="for_r0" x="-144.50533" y="137.55113" width="142.41" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0" transform="translate(0,-59.06445)"></rect>
+<text id="label0" class="for_r0" text-anchor="end" x="-7.33367" y="151.50779" dy="7.699999999999999" transform="translate(0,-59.06445)">Oil Products: 17.8</text>
+<rect id="label1_bg" class="for_r1" x="432.45036" y="102.55928" width="124.59334" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label1" class="for_r1" text-anchor="end" x="551.80534" y="116.51595" dy="7.699999999999999">Transport: 14.6</text>
+<rect id="label2_bg" class="for_r2" x="471.75034" y="192.62046" width="85.29333" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0" transform="translate(-118.41128,-10.42415)"></rect>
+<text id="label2" class="for_r2" text-anchor="end" x="551.80534" y="206.57713" dy="7.699999999999999" transform="translate(-118.41128,-10.42415)">Other: 9.6</text>
+<rect id="label3_bg" class="for_r3" x="-141.75533" y="327.90425" width="139.66" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0" transform="translate(0,-1.2332)"></rect>
+<text id="label3" class="for_r3" text-anchor="end" x="-7.33367" y="341.86089" dy="7.699999999999999" transform="translate(0,-1.2332)">Natural Gas: 54.6</text>
+<rect id="label4_bg" class="for_r4" x="443.15037" y="328.04188" width="113.89333" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0" transform="translate(-23.86584,22.57743)"></rect>
+<text id="label4" class="for_r4" text-anchor="end" x="551.80534" y="341.99855" dy="7.699999999999999" transform="translate(-23.86584,22.57743)">Industry: 36.4</text>
+<rect id="label5_bg" class="for_r5" x="386.25034" y="484.895" width="170.79333" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0" transform="translate(-84.44836,36.48002)"></rect>
+<text id="label5" class="for_r5" text-anchor="end" x="551.80534" y="498.85166" dy="7.699999999999999" transform="translate(-84.44836,36.48002)">Non-energy use: 19.9</text>
+<rect id="label6_bg" class="for_r6" x="-148.72201" y="481.72007" width="146.62666" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label6" class="for_r6" text-anchor="end" x="-7.33367" y="495.67673" dy="7.699999999999999">Bio fuel waste: 0.2</text>
+<rect id="label7_bg" class="for_r7" x="-115.622" y="538.36512" width="113.52667" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0" transform="translate(0,16.50521)"></rect>
+<text id="label7" class="for_r7" text-anchor="end" x="-7.33367" y="552.32176" dy="7.699999999999999" transform="translate(0,16.50521)">Electricity: 7.9</text>
+<rect id="label8_bg" class="for_r8" x="969.32264" y="11.39304" width="146.86" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label8" class="for_r8" text-anchor="end" x="1110.94434" y="25.34971" dy="7.699999999999999">Iron and Steel: 6.7</text>
+<rect id="label9_bg" class="for_r9" x="852.17268" y="111.64987" width="264.01001" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label9" class="for_r9" text-anchor="end" x="1110.94434" y="125.60654" dy="7.699999999999999">Chemical and petrochemical: 22.4</text>
+<rect id="label10_bg" class="for_r10" x="909.40601" y="203.37565" width="206.77667" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label10" class="for_r10" text-anchor="end" x="1110.94434" y="217.33232" dy="7.699999999999999">Non-metallic minerals: 2.6</text>
+<rect id="label11_bg" class="for_r11" x="899.42268" y="258.27226" width="216.76001" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label11" class="for_r11" text-anchor="end" x="1110.94434" y="272.2289" dy="7.699999999999999">Non-specified(industry): 4.7</text>
+<rect id="label12_bg" class="for_r12" x="1027.0727" y="338.13777" width="89.11" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label12" class="for_r12" text-anchor="end" x="1110.94434" y="352.09443" dy="7.699999999999999">Road: 14.6</text>
+<rect id="label13_bg" class="for_r13" x="992.13935" y="415.29835" width="124.04333" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label13" class="for_r13" text-anchor="end" x="1110.94434" y="429.25499" dy="7.699999999999999">Residential: 3.4</text>
+<rect id="label14_bg" class="for_r14" x="916.23933" y="474.98063" width="199.94333" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label14" class="for_r14" text-anchor="end" x="1110.94434" y="488.93728" dy="7.699999999999999">Non-specified (other): 6.2</text>
+<rect id="label15_bg" class="for_r15" x="879.27265" y="568.99525" width="236.91" height="28.77333" rx="4" fill="#fff" fill-opacity="0.55" stroke="none" stroke-width="0" stroke-opacity="0"></rect>
+<text id="label15" class="for_r15" text-anchor="end" x="1110.94434" y="582.95188" dy="7.699999999999999">Non-energy use industry: 19.9</text>
+</g>
+</g></svg>
