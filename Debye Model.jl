@@ -1,111 +1,203 @@
 ### A Pluto.jl notebook ###
-# v0.19.9
+# v0.19.22
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ ef91404e-934a-11ed-16c3-b5ca03ab19e9
-using SankeyPlots ,Colors, ColorSchemes,PlutoUI; import PlotUtils: palette
+# ╔═╡ ac3d340e-e0f5-45ec-9390-ffb0f6a2edbb
+using PlutoUI, HypertextLiteral , QuadGK, Plots
 
-# ╔═╡ ad63e364-d4f0-456c-976d-005ed626fd66
-md"  # QATAR
-Qatar is one fourth the size of Haryana. Qatar is the fourth largest country by greenhouse gas emissions per capita based on a production accounting of emissions of Carbon dioxide, Methane, Nitrous oxide, Perfluorocarbon, Hydrofluorocarbon, and Sulfur hexafluoride within the territory of country. In order to meet the Paris Agreement goal of under 1.5°C rise by 2050, average per person emissions would need to be around 2 tonnes per person by 2030. It has been suggested that countries over the average be carbon taxed and the funds raised given to countries under the average.
-# ⚡Energy policy of Qatar⚡
-  ##  Qatar Energy's Sustainability Strategy
-   Qatar Energy's Sustainability Strategy is governed by three mains references, Qatar National Vision 2030, United Nation's Sustainable Development Goals, and the Paris Agreement. It relies on several main pillars: to develop a low carbon energy department, to reduce emissions to compensate for residual emissions, and to preserve the company's leading position in the LNG sector.
-Qatar Energy set within its strategy several targets, such as :
+# ╔═╡ 922f1115-9b11-4ee0-931b-a01f34b10d40
+md"# 𝓡𝓪𝓶𝓪𝓷  𝓚𝓾𝓶𝓪𝓻 "
 
-    * Methane intensity of 0.2% by 2025
-    * Carbon Reduction intensity of 15% from upstream and 25% from the LNG facilities        by 2030
-    * Zero routine flaring by 2030
-    * Add 2 to 4 GW of renewable by 2030
-  ## Qatar National Vision 2030
-  Qatar’s National Vision aims that – by 2030 – Qatar becomes an advanced society capable of sustaining its development and providing a high standard of living for its people. Qatar’s National Vision defines the long-term goals for the country and provides a framework in which national strategies and implementation plans can be developed.The National Vision addresses five major challenges facing Qatar :
+# ╔═╡ fdac692d-5376-4621-a7f0-a3c19c88dbcf
+@htl("""
+	<style>
+	.cool-class {
+		font-size: 4rem;
+		color: Green;
+		background: red;
+		padding: 1rem;
+		border-radius: 1rem;
+	}
+	.right{padding: 1rem;
+         border-radius: 1rem;}
+	
+	</style>
+	
+	<div class="cool-class">Debye Model</div>
+    <div class="right"><img src="data:image/jpeg;base64,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" alt="" /></div>
+	""")
 
-   * Modernisation and preservation of traditions
-   * The needs of the current generation and of future generations
-   * Managed growth and uncontrolled expansion
-*   The size and quality of the expatriate labour force and the selected path of development
-   * Economic growth, social development, and environmental management"
+# ╔═╡ c16acb64-ba8b-11ed-0a4c-8348d944c7ec
+md" 
+>* It is a model developed by Peter Debye in 1912 for estimation of phonon contriution to specific heat in a solid.
+>* Correctly explains `` T^3`` dependence of specific heat capacity at low temperature.
+>* Matches Dulong-Petit law at high temperature.
+>* But suffers at intermediate temperature. "
 
-# ╔═╡ 598549f4-1344-4d25-bd5d-fbf215ac04b6
-cs = distinguishable_colors(17)
 
-# ╔═╡ 50d3b72d-c8cf-4c17-9af3-5ee2366ad892
-md" ## Final Consumption in 1980 (80.3PJ)"
+# ╔═╡ 3472efeb-01bc-43e1-9938-a9bff1214224
+TableOfContents()
 
-# ╔═╡ 3d1b044f-ee59-4fd0-b7e8-08ab5ba624c2
-src =[1,1,2,2,3,4,4,5,5,5,5,6,7,7,8]
+# ╔═╡ e433d3c8-cf4d-4cb7-9e24-f5fb95232a33
+Plots.theme(:lime)
 
-# ╔═╡ 6841ac8c-6fff-4966-a7dd-b11303500da2
-dst=[6,7,5,8,7,5,7,9,10,11,12,13,14,15,16]
+# ╔═╡ cf8ae840-0084-4539-aca9-bf3f88be0fea
+md" ## Debye's Assumptions: 
+>* He pictured the vibrations as standing wave modes in the crystal, similar to the electromagnetic modes in a cavity which successfully explained blackbody radiation.
+>* Low energy excitations of solid materials were not oscillations of an single atom , but collective modes propagating through material.
+>* Can be considered sound waves propagating at speed of sound with discrete energy.
+>*  There is a maximum number of modes of vibration in a solid.
+>* To impose a finite limit on the number of modes in the solid, Debye used a maximum allowed phonon frequency now called the Debye frequency $v_D$."
 
-# ╔═╡ 91ce69e2-c413-44a8-abaf-d67126b3a9fc
-weight=[14.6,3.2,34.7,19.9,0.2,1.7,6.1,6.7,22.4,2.6,1.7,14.6,0.2,6.2,19.9]
+# ╔═╡ fa529c1b-6eb9-40a8-aea4-0783aa033448
+@htl("""
+  <style>
+	.left{padding-left: 2rem;
+         border-radius: 1rem;}
+	</style>
+ <div class="left"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Phonon_k_3k.gif/375px-Phonon_k_3k.gif" width=610 /> </div>
+""")
 
-# ╔═╡ 7df9890d-02d0-4c9f-9e2f-9f5dc5856200
-names=["Oil products","Natural gas","Bio fuels and wastes","Electricity","Industry","Transport","Other","Non-Energy use","Iron and Steel","Chemical and petrochemical","Non-Metallic minerals","Non-specified(Industry)","Road","Residential","Non-specified(Other)","Non-energy use industry"]
+# ╔═╡ eb9ba990-df88-44f1-b8a8-0dbfc632b704
+md"## Phonon
+>* Phonons are _Quasi-particles_ with definite energy and directions of motion.
+>* Concept of phonon is analogous to the photon.
+>* Phonons obey Bose-Einstein Statistics.
+```math
+n(ω)=\frac{1}{exp(ħω/k_BT)-1}
+```"
 
-# ╔═╡ f5ccb9ac-c942-47bf-8fcc-523fac1c7ce3
-sankey(
-    src, dst, weight;
-    node_labels=names,
-    node_colors=cs,
-    edge_color=:gradient,
-    label_position=:right,
-    label_size=6,
-    compact=true)
+# ╔═╡ 65fe67ad-1bd2-41b9-a7df-157091021523
+md"Phonon of energy 𝝐 , angular frequency ω and wave vector _q⃗_ have relations :"
 
-# ╔═╡ 4d7da16f-87cd-4584-a7e8-99827b036a70
-md" ## Final Consumption in 2020. "
+# ╔═╡ 3a8d6965-8dc7-47f0-b61b-43750716f51a
+ md"$\begin{gather}
+ 𝛜=ħ𝛚\\
+ \text{𝛚=vq⃗} \\
+ \text{, where v is speed of sound wave.}
+ \end{gather}$"  
 
-# ╔═╡ cb78b0e1-9b37-42ec-926f-b8de7fdf3d96
-src2=[1,1,1,1,2,2,3,4,4,5,5,5,5,6,7,7,7,8]
+# ╔═╡ 5ac5261b-21b8-4b27-bcad-b440496f0116
+md"##  Debye frequency and Debye temperature.
+>* Phonon can't have ∞ frequency. Its frequency is bound by atomic lattice of solid.
+>* N primitive lattice will have N phonon modes.
+>* A cut off frequency also known as Debye frequency is determined as follows :
+"
 
-# ╔═╡ 06d1e7aa-020e-4f1e-ae45-e3bbb3bb566e
-dst2=[5,6,7,8,5,8,8,5,7,9,10,11,12,13,14,15,16,17]
+# ╔═╡ 8294ca70-4465-46c6-8065-a9369abbaf36
+md" In 3D reciprocal space , volume of each allowed vector q⃗ is : 
+ 
+$\text(2π/L)^3=8π^3/V$
+All modes are confined within a sphere of radius $q_D$ . Thus number of modes should be : 
+```math
+N=\frac{4}{3π\text q_D^3}/\frac{8π^3}{V}
+```
+```math
+q_D=(\frac{6π^2N}{V})^1/3
+```
+```math
+𝝎_D=v_s(\frac{6π^2N}{V})^1/3
+```
+Debye temperature $T_D$ is defined as :
+```math
+T_D=\frac{ħ𝛚_D}{k_B}=\frac{ħv_s}{k_B}(\frac{6π^2N}{V})^1/3
+```
+"
 
-# ╔═╡ bc6f4d0d-f2b3-44bb-8c85-e5fed6128077
-weights2=[34.8,163.8,6.2,168,257.4,124.8,0.4,37.7,117.4,9.6,172.4,75.5,72.5,163.8,73,30,21,292.8]
 
-# ╔═╡ 9b5e6b81-1e1b-45e1-9f77-31160ab7486f
-names2=["Oil products","Natural gas","Bio fuels and wastes","Electricity","Industry","Transport","Other","Non-Energy use","Iron and Steel","Chemical and petrochemical","Non-Metallic minerals","Non-specified(Industry)","Road","Residential","Commerce and Public services","Non-specified(Other)","Non-energy use industry"]
+# ╔═╡ 4a543497-2564-4a12-b087-d4e521d4300d
+md" ## Derivation for specific heat
+We take sound velocity $v_s$ as constant for each polarisation type.
+The Density of states is :
+```math
+D(ω)=\frac{\text{d}N}{\text{d}ω}=\frac{Vω^2}{2π^2v_s^3}
+```
+Thus thermal energy for each polarisation type is given by :
+```math
+U=∫dωD(ω)n(ω)ħω=∫_0^ω dω\frac{Vω^2}{2π^2v_s^3}\frac{ħω}{exp(ħω/k_BT)-1}
+```
+There are three polarisations so U would be :
+```math
+U=3∫_0^ω dω\frac{Vω^2}{2π^2v_s^3}\frac{ħω}{exp(ħω/k_BT)-1}=\frac{3Vħ}{2π^2v_s^3}∫_0^ω dω\frac{ω^3}{exp(ħω/k_BT)-1}
+```
+Let $x=ħω/k_BT$ and $x_D=T_D/T$
+```math
+U=\frac{3Vk_B^4T^4}{2π^2v_s^3ħ^3} ∫_0^x dx \frac{x^3}{e^x-1}=9Nk_BT(\frac{T}{T_D})^3∫_0^x dx \frac{x^3}{e^x-1}
+```
+The Heat capacity is
+```math
+C_v=\frac{ðU}{ðT}=9Nk_B(\frac{T}{T_D})^3∫_0^x dx \frac{x^4 e^x}{(e^x-1)^2}
+```
+Above integral can't be evaluated exactly so we will plot it numerically."
 
-# ╔═╡ 7c4b9d43-47d3-4d8a-91a5-ad19aa86a0ff
+# ╔═╡ 4fc426ae-3416-427f-a1a3-fb45b54f28f5
+md" ## Numerical analysis"
 
-sankey(
-    src2, dst2, weights2;
-    node_labels=names2,
-    node_colors=cs,
-    edge_color=:gradient,
-    label_position=:right,
-    label_size=6,
-    compact=true)
+# ╔═╡ 33baec0a-7b6b-48b0-87c2-38cd381b8bf9
+begin
+    ħ=1.05457182*10^-34 ; ω=10^12 ; k_B=1.380649*10^(-23) ; T_D=400 ; N=6.022*10^23
+end
 
-# ╔═╡ a073c33b-8db2-4e55-a53c-2a23d24fdec1
-md""" ## Diagram made by using ` SankeyMatics`. """
+# ╔═╡ 2a900230-4234-4ff0-981d-1760f51f230e
+begin 
+    T=1:600                               # Temperature range of plot.
+	@.f(T)=9N*k_B*(T/T_D)^3       # multiplication factor before integration.
+	n(x)=(x^4*exp(x))/((exp(x)-1)^2)                                    # Integrand.
+end
 
-# ╔═╡ a8945ac9-7f73-4f8b-9244-256811e2fd48
-Resource("https://github.com/raman-maker/Raman.github.io/blob/master/sankeymatic_20230124_145302.jpg?raw=true", :width=>700)
+# ╔═╡ 185bfdff-bea7-45c3-a6cc-b7563992d767
+C= @.quadgk(x -> n(x) ,10^-10 ,(T_D)/T)       # integral for each integration limit.
 
-# ╔═╡ ba3cc9c8-5543-4d66-b916-5c341b7bb761
-Resource("https://github.com/raman-maker/Raman.github.io/blob/master/sankeymatic_20230124_145438_2600x1600.png?raw=true", :width=>700)
+# ╔═╡ 66f90862-9366-401b-b5c9-e8b296e52919
+g=getfield.(C,1)                      # use getfield() to get first column of tuple.
+
+# ╔═╡ 2189e7b3-ecc8-400b-9a9d-d0a062c2c4a4
+C_v=f(T).*g*(6.022*10^5)                                           # Specific Heat.
+
+# ╔═╡ 95c16e8c-adce-4c18-9c4c-f8abd2a72239
+plot(T,C_v, ylabel="C_v" , xlabel="Temperature" , lw=4 , ls=:dot,lc=:green , label="T_D" )
+
+# ╔═╡ 411b975a-3a36-4a30-8f3d-509eb02456c4
+md" ## High temperature limit
+For High temperature case $\text{T}⪢T_D$ , the value of x is very small so we can approximate $e^x≈1+x$ so value of _U_ is :
+```math
+U=9Nk_BT(\frac{T}{T_D})^3∫_0^x x^2dx = 3Nk_BT
+```
+```math
+C_v=3Nk_B
+```
+which is classical _Dulong-Petit_ result."
+
+# ╔═╡ 35377331-a730-402a-bf2d-9c81d59b1784
+md" ## Low temperature limit
+At very low temperature $\text{T}⋘T_D$ , only long wavelength acoustic mode are thermally excited. We can approximate $x_D=T_D/T$ to be ∞ and make use of standard integral
+```math
+∫_0^∞ dx \frac{x^3}{e^x-1} = \frac{π^4}{15}
+```
+to obtain
+```math
+U=\frac{3π^4Nk_BT^4}{5T_D^3}
+```
+```math
+C_v=\frac{12π^4Nk_BT^3}{5T_D^3}≌324Nk_B\frac{T^3}{T_D^3}
+```
+"
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
-PlotUtils = "995b91a9-d308-5afd-9ec6-746e21dbc043"
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-SankeyPlots = "8fd88ec8-d95c-41fc-b299-05f2225f2cc5"
+QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
 
 [compat]
-ColorSchemes = "~3.20.0"
-Colors = "~0.12.10"
-PlotUtils = "~1.3.2"
-PlutoUI = "~0.7.49"
-SankeyPlots = "~0.2.2"
+HypertextLiteral = "~0.9.4"
+Plots = "~1.38.6"
+PlutoUI = "~0.7.50"
+QuadGK = "~2.8.1"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -114,13 +206,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.3"
 manifest_format = "2.0"
-project_hash = "a9c3ced7c6411ab72a33b1614d1b25e66e8fb3ff"
-
-[[deps.ASL_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "6252039f98492252f9e47c312c8ffda0e3b9e78d"
-uuid = "ae81ac8f-d209-56e5-92de-9978fef736f9"
-version = "0.1.3+0"
+project_hash = "96184e40024748fa490289e546646e58e560346b"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -132,23 +218,16 @@ version = "1.1.4"
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 version = "1.1.1"
 
-[[deps.ArnoldiMethod]]
-deps = ["LinearAlgebra", "Random", "StaticArrays"]
-git-tree-sha1 = "62e51b39331de8911e4a7ff6f5aaf38a5f4cc0ae"
-uuid = "ec485272-7323-5ecc-a04f-4719b315124d"
-version = "0.2.0"
-
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
-[[deps.BenchmarkTools]]
-deps = ["JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
-git-tree-sha1 = "d9a9701b899b30332bbcb3e1679c41cce81fb0e8"
-uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-version = "1.3.2"
+[[deps.BitFlags]]
+git-tree-sha1 = "43b1a4a8f797c1cddadf60499a8a077d4af2cd2d"
+uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
+version = "0.1.7"
 
 [[deps.Bzip2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -156,70 +235,29 @@ git-tree-sha1 = "19a35467a82e236ff51bc17a3a44b69ef35185a2"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
-[[deps.CEnum]]
-git-tree-sha1 = "eb4cb44a499229b3b8426dcfb5dd85333951ff90"
-uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
-version = "0.4.2"
-
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
 
-[[deps.Cbc]]
-deps = ["Cbc_jll", "MathOptInterface", "SparseArrays"]
-git-tree-sha1 = "eb15f027e0a5883f6c9a3aea0881f9cce593767a"
-uuid = "9961bab8-2fa3-5c5a-9d89-47fab24efd76"
-version = "1.0.3"
-
-[[deps.Cbc_jll]]
-deps = ["ASL_jll", "Artifacts", "Cgl_jll", "Clp_jll", "CoinUtils_jll", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "OpenBLAS32_jll", "Osi_jll", "Pkg"]
-git-tree-sha1 = "1d12b6aa435f30bd5619e0144f4c815c854a91b6"
-uuid = "38041ee0-ae04-5750-a4d2-bb4d0d83d27d"
-version = "200.1000.800+0"
-
-[[deps.Cgl_jll]]
-deps = ["Artifacts", "Clp_jll", "CoinUtils_jll", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Osi_jll", "Pkg"]
-git-tree-sha1 = "3e53a23c0bf96e8c0115777e351a04d5b0f52529"
-uuid = "3830e938-1dd0-5f3e-8b8e-b3ee43226782"
-version = "0.6000.600+0"
-
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "e7ff6cadf743c098e08fca25c91103ee4303c9bb"
+git-tree-sha1 = "c6d890a52d2c4d55d326439580c3b8d0875a77d9"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.15.6"
+version = "1.15.7"
 
 [[deps.ChangesOfVariables]]
 deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "38f7a08f19d8810338d4f5085211c7dfa5d5bdd8"
+git-tree-sha1 = "485193efd2176b88e6622a39a246f8c5b600e74e"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.4"
-
-[[deps.Clp_jll]]
-deps = ["Artifacts", "CoinUtils_jll", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "METIS_jll", "MUMPS_seq_jll", "OpenBLAS32_jll", "Osi_jll", "Pkg"]
-git-tree-sha1 = "51861cd16c6c4e0018ad401b2afb36e51c7d4bcd"
-uuid = "06985876-5285-5a41-9fcb-8948a742cc53"
-version = "100.1700.700+1"
-
-[[deps.CodecBzip2]]
-deps = ["Bzip2_jll", "Libdl", "TranscodingStreams"]
-git-tree-sha1 = "2e62a725210ce3c3c2e1a3080190e7ca491f18d7"
-uuid = "523fee87-0ab8-5b00-afb7-3ecf72e48cfd"
-version = "0.7.2"
+version = "0.1.6"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
-git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
+git-tree-sha1 = "9c209fb7536406834aa938fb149964b985de6c83"
 uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
-version = "0.7.0"
-
-[[deps.CoinUtils_jll]]
-deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "OpenBLAS32_jll", "Pkg"]
-git-tree-sha1 = "5e9852361e31af66143665e780535df262fa3407"
-uuid = "be027038-0da8-5614-b30d-e42594cb92df"
-version = "200.1100.600+0"
+version = "0.7.1"
 
 [[deps.ColorSchemes]]
 deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "Random", "SnoopPrecompile"]
@@ -245,17 +283,11 @@ git-tree-sha1 = "fc08e5930ee9a4e03f84bfb5211cb54e7769758a"
 uuid = "5ae59095-9a9b-59fe-a467-6f913c188581"
 version = "0.12.10"
 
-[[deps.CommonSubexpressions]]
-deps = ["MacroTools", "Test"]
-git-tree-sha1 = "7b8a93dba8af7e3b42fecabf646260105ac373f7"
-uuid = "bbf7d656-a473-5ed7-a52c-81e309532950"
-version = "0.3.0"
-
 [[deps.Compat]]
-deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "78bee250c6826e1cf805a88b7f1e86025275d208"
+deps = ["Dates", "LinearAlgebra", "UUIDs"]
+git-tree-sha1 = "7a60c856b9fa189eb34f5f8a6f6b5529b7942957"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.46.0"
+version = "4.6.1"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -286,22 +318,6 @@ uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 deps = ["Mmap"]
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
-[[deps.DiffResults]]
-deps = ["StaticArraysCore"]
-git-tree-sha1 = "782dd5f4561f5d267313f23853baaaa4c52ea621"
-uuid = "163ba53b-c6d8-5494-b064-1a9d43ac40c5"
-version = "1.1.0"
-
-[[deps.DiffRules]]
-deps = ["IrrationalConstants", "LogExpFunctions", "NaNMath", "Random", "SpecialFunctions"]
-git-tree-sha1 = "c5b6685d53f933c11404a3ae9822afe30d522494"
-uuid = "b552c78f-8df3-52c6-915a-8e097449b14b"
-version = "1.12.2"
-
-[[deps.Distributed]]
-deps = ["Random", "Serialization", "Sockets"]
-uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
-
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
 git-tree-sha1 = "2fb1e02f2b635d0845df5d7c167fec4dd739b00d"
@@ -312,18 +328,6 @@ version = "0.9.3"
 deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.6.0"
-
-[[deps.ECOS]]
-deps = ["CEnum", "ECOS_jll", "MathOptInterface"]
-git-tree-sha1 = "a10ccdc509a938d02b32904edb037b7045c49665"
-uuid = "e2685f51-7e38-5353-a97d-a921fd2c8199"
-version = "1.1.0"
-
-[[deps.ECOS_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "5f84034ddd642cf595e57d46ea2f085321c260e4"
-uuid = "c2c64177-6a8e-5dca-99a7-64895ad7445f"
-version = "200.0.800+0"
 
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -342,12 +346,6 @@ deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers",
 git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 version = "4.4.2+2"
-
-[[deps.FileIO]]
-deps = ["Pkg", "Requires", "UUIDs"]
-git-tree-sha1 = "7be5f99f7d15578798f338f5433b6c432ea8037b"
-uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-version = "1.16.0"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -370,12 +368,6 @@ git-tree-sha1 = "8339d61043228fdd3eb658d86c926cb282ae72a8"
 uuid = "59287772-0a20-5a39-b81b-1366585eb4c0"
 version = "0.4.2"
 
-[[deps.ForwardDiff]]
-deps = ["CommonSubexpressions", "DiffResults", "DiffRules", "LinearAlgebra", "LogExpFunctions", "NaNMath", "Preferences", "Printf", "Random", "SpecialFunctions", "StaticArrays"]
-git-tree-sha1 = "a69dd6db8a809f78846ff259298678f0d6212180"
-uuid = "f6369f11-7733-5829-9624-2563aa707210"
-version = "0.10.34"
-
 [[deps.FreeType2_jll]]
 deps = ["Artifacts", "Bzip2_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
 git-tree-sha1 = "87eb71354d8ec1a96d4a7636bd57a7347dde3ef9"
@@ -396,15 +388,15 @@ version = "3.3.8+0"
 
 [[deps.GR]]
 deps = ["Artifacts", "Base64", "DelimitedFiles", "Downloads", "GR_jll", "HTTP", "JSON", "Libdl", "LinearAlgebra", "Pkg", "Preferences", "Printf", "Random", "Serialization", "Sockets", "TOML", "Tar", "Test", "UUIDs", "p7zip_jll"]
-git-tree-sha1 = "387d2b8b3ca57b791633f0993b31d8cb43ea3292"
+git-tree-sha1 = "660b2ea2ec2b010bb02823c6d0ff6afd9bdc5c16"
 uuid = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
-version = "0.71.3"
+version = "0.71.7"
 
 [[deps.GR_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Pkg", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "5982b5e20f97bff955e9a2343a14da96a746cd8c"
+deps = ["Artifacts", "Bzip2_jll", "Cairo_jll", "FFMPEG_jll", "Fontconfig_jll", "GLFW_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pixman_jll", "Qt5Base_jll", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "d5e1fd17ac7f3aa4c5287a61ee28d4f8b8e98873"
 uuid = "d2c73de3-f751-5644-a686-071e5b155ba9"
-version = "0.71.3+0"
+version = "0.71.7+0"
 
 [[deps.Gettext_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "XML2_jll"]
@@ -424,22 +416,16 @@ git-tree-sha1 = "344bf40dcab1073aca04aa0df4fb092f920e4011"
 uuid = "3b182d85-2403-5c21-9c21-1e1f0cc25472"
 version = "1.3.14+0"
 
-[[deps.Graphs]]
-deps = ["ArnoldiMethod", "Compat", "DataStructures", "Distributed", "Inflate", "LinearAlgebra", "Random", "SharedArrays", "SimpleTraits", "SparseArrays", "Statistics"]
-git-tree-sha1 = "ba2d094a88b6b287bd25cfa86f301e7693ffae2f"
-uuid = "86223c79-3864-5bf0-83f7-82e725a168b6"
-version = "1.7.4"
-
 [[deps.Grisu]]
 git-tree-sha1 = "53bb909d1151e57e2484c3d1b53e19552b887fb2"
 uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.2"
 
 [[deps.HTTP]]
-deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "Sockets", "URIs"]
-git-tree-sha1 = "0fa77022fe4b511826b39c894c90daf5fce3334a"
+deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "37e4657cd56b11abe3d10cd4a1ec5fbdb4180263"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "0.9.17"
+version = "1.7.4"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -465,11 +451,6 @@ git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 version = "0.2.2"
 
-[[deps.Inflate]]
-git-tree-sha1 = "5cd07aab533df5170988219191dfad0519391428"
-uuid = "d25df0c9-e2be-5dd7-82c8-3ad0b3e990b9"
-version = "0.1.3"
-
 [[deps.IniFile]]
 git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
@@ -486,20 +467,9 @@ uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
 version = "0.1.8"
 
 [[deps.IrrationalConstants]]
-git-tree-sha1 = "7fd44fd4ff43fc60815f8e764c0f352b83c49151"
+git-tree-sha1 = "630b497eafcc20001bba38a4651b327dcfc491d2"
 uuid = "92d709cd-6900-40b7-9082-c6be49f344b6"
-version = "0.1.1"
-
-[[deps.IterTools]]
-git-tree-sha1 = "fa6287a4469f5e048d763df38279ee729fbd44e5"
-uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
-version = "1.4.0"
-
-[[deps.JLD2]]
-deps = ["FileIO", "MacroTools", "Mmap", "OrderedCollections", "Pkg", "Printf", "Reexport", "TranscodingStreams", "UUIDs"]
-git-tree-sha1 = "ec8a9c9f0ecb1c687e34c1fda2699de4d054672a"
-uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
-version = "0.4.29"
+version = "0.2.2"
 
 [[deps.JLFzf]]
 deps = ["Pipe", "REPL", "Random", "fzf_jll"]
@@ -520,16 +490,10 @@ uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.3"
 
 [[deps.JpegTurbo_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "b53380851c6e6664204efb2e62cd24fa5c47e4ba"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "6f2675ef130a300a112286de91973805fcc5ffbc"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
-version = "2.1.2+0"
-
-[[deps.JuMP]]
-deps = ["LinearAlgebra", "MathOptInterface", "MutableArithmetics", "OrderedCollections", "Printf", "SparseArrays"]
-git-tree-sha1 = "821341783388cd26bbb9bab4ad9d0992e78259a4"
-uuid = "4076af6c-e467-56ae-b986-b466b2749572"
-version = "1.6.0"
+version = "2.1.91+0"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -559,12 +523,6 @@ deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdow
 git-tree-sha1 = "2422f47b34d4b127720a18f86fa7b1aa2e141f29"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 version = "0.15.18"
-
-[[deps.LayeredLayouts]]
-deps = ["Cbc", "Dates", "ECOS", "Graphs", "IterTools", "JuMP", "Random"]
-git-tree-sha1 = "a9ccdb2e75f5fc2faa7371b9bf309c75f602a0d1"
-uuid = "f4a74d36-062a-4d48-97cd-1356bad1de4e"
-version = "0.2.5"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -642,29 +600,23 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["ChainRulesCore", "ChangesOfVariables", "DocStringExtensions", "InverseFunctions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "946607f84feb96220f480e0422d3484c49c00239"
+git-tree-sha1 = "0a1b7c2863e44523180fdb3146534e265a91870b"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.19"
+version = "0.3.23"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
-[[deps.METIS_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "1fd0a97409e418b78c53fac671cf4622efdf0f21"
-uuid = "d00139f3-1899-568f-a2f0-47f597d42d70"
-version = "5.1.2+0"
+[[deps.LoggingExtras]]
+deps = ["Dates", "Logging"]
+git-tree-sha1 = "cedb76b37bc5a6c702ade66be44f831fa23c681e"
+uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
+version = "1.0.0"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
 uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
 version = "0.1.4"
-
-[[deps.MUMPS_seq_jll]]
-deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "METIS_jll", "OpenBLAS32_jll", "Pkg", "libblastrampoline_jll"]
-git-tree-sha1 = "f429d6bbe9ad015a2477077c9e89b978b8c26558"
-uuid = "d7ed1dd3-d0ae-5e8e-bfb4-87a502085b8d"
-version = "500.500.101+0"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -675,12 +627,6 @@ version = "0.5.10"
 [[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
-
-[[deps.MathOptInterface]]
-deps = ["BenchmarkTools", "CodecBzip2", "CodecZlib", "DataStructures", "ForwardDiff", "JSON", "LinearAlgebra", "MutableArithmetics", "NaNMath", "OrderedCollections", "Printf", "SparseArrays", "SpecialFunctions", "Test", "Unicode"]
-git-tree-sha1 = "baa31c7b235492d9a6f2cb31bb533d74345b0614"
-uuid = "b8f27783-ece8-5eb3-8dc8-9495eed66fee"
-version = "1.11.4"
 
 [[deps.MbedTLS]]
 deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "Random", "Sockets"]
@@ -698,17 +644,11 @@ git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
 version = "0.3.2"
 
-[[deps.MetaGraphs]]
-deps = ["Graphs", "JLD2", "Random"]
-git-tree-sha1 = "1130dbe1d5276cb656f6e1094ce97466ed700e5a"
-uuid = "626554b9-1ddb-594c-aa3c-2596fe9399a5"
-version = "0.7.2"
-
 [[deps.Missings]]
 deps = ["DataAPI"]
-git-tree-sha1 = "f8c673ccc215eb50fcadb285f522420e29e69e1c"
+git-tree-sha1 = "f66bdc5de519e8f8ae43bdc598782d35a25b1272"
 uuid = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
-version = "0.4.5"
+version = "1.1.0"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
@@ -717,17 +657,11 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2022.2.1"
 
-[[deps.MutableArithmetics]]
-deps = ["LinearAlgebra", "SparseArrays", "Test"]
-git-tree-sha1 = "aa532179d4a643d4bd9f328589ca01fa20a0d197"
-uuid = "d8a4904e-b15c-11e9-3269-09a3773c0cb0"
-version = "1.1.0"
-
 [[deps.NaNMath]]
 deps = ["OpenLibm_jll"]
-git-tree-sha1 = "a7c3d1da1189a1c2fe843a3bfa04d18d20eb3211"
+git-tree-sha1 = "0877504529a3e5c3343c6f8b4c0381e57e4387e4"
 uuid = "77ba4419-2d1f-58cd-9bb1-8ffee604a2e3"
-version = "1.0.1"
+version = "1.0.2"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
@@ -739,12 +673,6 @@ git-tree-sha1 = "887579a3eb005446d514ab7aeac5d1d027658b8f"
 uuid = "e7412a2a-1a6e-54c0-be00-318e2571c051"
 version = "1.3.5+1"
 
-[[deps.OpenBLAS32_jll]]
-deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "9c6c2ed4b7acd2137b878eb96c68e63b76199d0f"
-uuid = "656ef2d0-ae68-5445-9ca0-591084a874a2"
-version = "0.3.17+0"
-
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
@@ -755,11 +683,17 @@ deps = ["Artifacts", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
 version = "0.8.1+0"
 
+[[deps.OpenSSL]]
+deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
+git-tree-sha1 = "6503b77492fd7fcb9379bf73cd31035670e3c509"
+uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
+version = "1.3.3"
+
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "f6e9dba33f9f2c44e08a020b0caf6903be540004"
+git-tree-sha1 = "9ff31d101d987eb9d66bd8b176ac7c277beccd09"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.19+0"
+version = "1.1.20+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -778,12 +712,6 @@ git-tree-sha1 = "85f8e6578bf1f9ee0d11e7bb1b1456435479d47c"
 uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
 version = "1.4.1"
 
-[[deps.Osi_jll]]
-deps = ["Artifacts", "CoinUtils_jll", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "OpenBLAS32_jll", "Pkg"]
-git-tree-sha1 = "4f00d103782fb742e50886924eeea2fe722d3f7a"
-uuid = "7da25872-d9ce-5375-a4d3-7a845f58efdd"
-version = "0.10800.700+0"
-
 [[deps.PCRE2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "efcefdf7-47ab-520b-bdef-62a2eaa19f15"
@@ -791,9 +719,9 @@ version = "10.40.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "SnoopPrecompile"]
-git-tree-sha1 = "8175fc2b118a3755113c8e68084dc1a9e63c61ee"
+git-tree-sha1 = "478ac6c952fddd4399e71d4779797c538d0ff2bf"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.5.3"
+version = "2.5.8"
 
 [[deps.Pipe]]
 git-tree-sha1 = "6842804e7867b115ca9de748a0cf6b364523c16d"
@@ -819,21 +747,21 @@ version = "3.1.0"
 
 [[deps.PlotUtils]]
 deps = ["ColorSchemes", "Colors", "Dates", "Printf", "Random", "Reexport", "SnoopPrecompile", "Statistics"]
-git-tree-sha1 = "5b7690dd212e026bbab1860016a6601cb077ab66"
+git-tree-sha1 = "c95373e73290cf50a8a22c3375e4625ded5c5280"
 uuid = "995b91a9-d308-5afd-9ec6-746e21dbc043"
-version = "1.3.2"
+version = "1.3.4"
 
 [[deps.Plots]]
 deps = ["Base64", "Contour", "Dates", "Downloads", "FFMPEG", "FixedPointNumbers", "GR", "JLFzf", "JSON", "LaTeXStrings", "Latexify", "LinearAlgebra", "Measures", "NaNMath", "Pkg", "PlotThemes", "PlotUtils", "Preferences", "Printf", "REPL", "Random", "RecipesBase", "RecipesPipeline", "Reexport", "RelocatableFolders", "Requires", "Scratch", "Showoff", "SnoopPrecompile", "SparseArrays", "Statistics", "StatsBase", "UUIDs", "UnicodeFun", "Unzip"]
-git-tree-sha1 = "a99bbd3664bb12a775cda2eba7f3b2facf3dad94"
+git-tree-sha1 = "da1d3fb7183e38603fcdd2061c47979d91202c97"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
-version = "1.38.2"
+version = "1.38.6"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
-git-tree-sha1 = "eadad7b14cf046de6eb41f13c9275e5aa2711ab6"
+git-tree-sha1 = "5bb5129fdd62a2bbbe17c2756932259acf467386"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.49"
+version = "0.7.50"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -845,15 +773,17 @@ version = "1.3.0"
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
-[[deps.Profile]]
-deps = ["Printf"]
-uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
-
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
 git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
 version = "5.15.3+2"
+
+[[deps.QuadGK]]
+deps = ["DataStructures", "LinearAlgebra"]
+git-tree-sha1 = "786efa36b7eff813723c4849c90456609cf06661"
+uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+version = "2.8.1"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -896,12 +826,6 @@ version = "1.3.0"
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
 
-[[deps.SankeyPlots]]
-deps = ["Graphs", "LayeredLayouts", "MetaGraphs", "Plots", "RecipesBase", "SparseArrays"]
-git-tree-sha1 = "0281823a940768f3d8828f292ec64a51039e2ccf"
-uuid = "8fd88ec8-d95c-41fc-b299-05f2225f2cc5"
-version = "0.2.2"
-
 [[deps.Scratch]]
 deps = ["Dates"]
 git-tree-sha1 = "f94f779c94e58bf9ea243e77a37e16d9de9126bd"
@@ -911,21 +835,16 @@ version = "1.1.1"
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
-[[deps.SharedArrays]]
-deps = ["Distributed", "Mmap", "Random", "Serialization"]
-uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
-
 [[deps.Showoff]]
 deps = ["Dates", "Grisu"]
 git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
 
-[[deps.SimpleTraits]]
-deps = ["InteractiveUtils", "MacroTools"]
-git-tree-sha1 = "5d7e3f4e11935503d3ecaf7186eac40602e7d231"
-uuid = "699a6c99-e7fa-54fc-8d76-47d257e15c1d"
-version = "0.9.4"
+[[deps.SimpleBufferStream]]
+git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
+uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
+version = "1.1.0"
 
 [[deps.SnoopPrecompile]]
 deps = ["Preferences"]
@@ -938,9 +857,9 @@ uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
 [[deps.SortingAlgorithms]]
 deps = ["DataStructures"]
-git-tree-sha1 = "f6cb12bae7c2ecff6c4986f28defff8741747a9b"
+git-tree-sha1 = "a4ada03f999bd01b3a25dcaa30b2d929fe537e00"
 uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
-version = "0.3.2"
+version = "1.1.0"
 
 [[deps.SparseArrays]]
 deps = ["LinearAlgebra", "Random"]
@@ -948,20 +867,9 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "5d65101b2ed17a8862c4c05639c3ddc7f3d791e1"
+git-tree-sha1 = "ef28127915f4229c971eb43f3fc075dd3fe91880"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "1.8.7"
-
-[[deps.StaticArrays]]
-deps = ["LinearAlgebra", "Random", "StaticArraysCore", "Statistics"]
-git-tree-sha1 = "6954a456979f23d05085727adb17c4551c19ecd1"
-uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.5.12"
-
-[[deps.StaticArraysCore]]
-git-tree-sha1 = "6b7ba252635a5eff6a0b0664a41ee140a1c9e72a"
-uuid = "1e83bf80-4336-4d27-bf5d-d5a4f845583c"
-version = "1.4.0"
+version = "2.2.0"
 
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
@@ -1011,9 +919,9 @@ uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
 version = "0.1.6"
 
 [[deps.URIs]]
-git-tree-sha1 = "ac00576f90d8a259f2c9d823e91d1de3fd44d348"
+git-tree-sha1 = "074f993b0ca030848b897beff716d93aca60f06a"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.4.1"
+version = "1.4.2"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -1189,10 +1097,10 @@ uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
 version = "1.2.12+3"
 
 [[deps.Zstd_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e45044cd873ded54b6a5bac0eb5c971392cf1927"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "c6edfe154ad7b313c01aceca188c05c835c67360"
 uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
-version = "1.5.2+0"
+version = "1.5.4+0"
 
 [[deps.fzf_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1265,23 +1173,28 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╟─ad63e364-d4f0-456c-976d-005ed626fd66
-# ╠═ef91404e-934a-11ed-16c3-b5ca03ab19e9
-# ╠═598549f4-1344-4d25-bd5d-fbf215ac04b6
-# ╟─50d3b72d-c8cf-4c17-9af3-5ee2366ad892
-# ╠═3d1b044f-ee59-4fd0-b7e8-08ab5ba624c2
-# ╠═6841ac8c-6fff-4966-a7dd-b11303500da2
-# ╠═91ce69e2-c413-44a8-abaf-d67126b3a9fc
-# ╠═7df9890d-02d0-4c9f-9e2f-9f5dc5856200
-# ╠═f5ccb9ac-c942-47bf-8fcc-523fac1c7ce3
-# ╠═4d7da16f-87cd-4584-a7e8-99827b036a70
-# ╠═cb78b0e1-9b37-42ec-926f-b8de7fdf3d96
-# ╠═06d1e7aa-020e-4f1e-ae45-e3bbb3bb566e
-# ╠═bc6f4d0d-f2b3-44bb-8c85-e5fed6128077
-# ╠═9b5e6b81-1e1b-45e1-9f77-31160ab7486f
-# ╠═7c4b9d43-47d3-4d8a-91a5-ad19aa86a0ff
-# ╟─a073c33b-8db2-4e55-a53c-2a23d24fdec1
-# ╠═a8945ac9-7f73-4f8b-9244-256811e2fd48
-# ╠═ba3cc9c8-5543-4d66-b916-5c341b7bb761
+# ╟─922f1115-9b11-4ee0-931b-a01f34b10d40
+# ╟─fdac692d-5376-4621-a7f0-a3c19c88dbcf
+# ╟─c16acb64-ba8b-11ed-0a4c-8348d944c7ec
+# ╠═3472efeb-01bc-43e1-9938-a9bff1214224
+# ╠═ac3d340e-e0f5-45ec-9390-ffb0f6a2edbb
+# ╠═e433d3c8-cf4d-4cb7-9e24-f5fb95232a33
+# ╟─cf8ae840-0084-4539-aca9-bf3f88be0fea
+# ╟─fa529c1b-6eb9-40a8-aea4-0783aa033448
+# ╟─eb9ba990-df88-44f1-b8a8-0dbfc632b704
+# ╟─65fe67ad-1bd2-41b9-a7df-157091021523
+# ╟─3a8d6965-8dc7-47f0-b61b-43750716f51a
+# ╟─5ac5261b-21b8-4b27-bcad-b440496f0116
+# ╟─8294ca70-4465-46c6-8065-a9369abbaf36
+# ╟─4a543497-2564-4a12-b087-d4e521d4300d
+# ╟─4fc426ae-3416-427f-a1a3-fb45b54f28f5
+# ╠═33baec0a-7b6b-48b0-87c2-38cd381b8bf9
+# ╠═2a900230-4234-4ff0-981d-1760f51f230e
+# ╠═185bfdff-bea7-45c3-a6cc-b7563992d767
+# ╠═66f90862-9366-401b-b5c9-e8b296e52919
+# ╠═2189e7b3-ecc8-400b-9a9d-d0a062c2c4a4
+# ╠═95c16e8c-adce-4c18-9c4c-f8abd2a72239
+# ╟─411b975a-3a36-4a30-8f3d-509eb02456c4
+# ╟─35377331-a730-402a-bf2d-9c81d59b1784
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
